@@ -1,0 +1,12 @@
+Product Name: FitGear 6X
+Brand: FitGear
+Model: 6X
+Price: $399
+Description: The FitGear 6X is a versatile smartwatch that offers advanced fitness tracking, heart rate monitoring, and GPS. With a durable design and up to 10 days of battery life, it's the perfect companion for your active lifestyle.
+Key Features:
+- Display: 1.4-inch AMOLED, 320 x 320 pixels
+- Sensors: Heart rate, GPS, SpO2
+- Battery Life: Up to 10 days
+- Water Resistance: 50m
+- Compatibility: iOS and Android
+Availability: In stock

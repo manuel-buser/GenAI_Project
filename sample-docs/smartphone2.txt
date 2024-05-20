@@ -1,0 +1,12 @@
+Product Name: Galaxy Star G5
+Brand: Galaxy
+Model: Star G5
+Price: $799
+Description: The Galaxy Star G5 offers a vibrant 6.5-inch Super AMOLED display and a powerful Exynos 2100 processor. Equipped with a triple-camera system and 5G connectivity, this phone is designed for both performance and style.
+Key Features:
+- Display: 6.5-inch Super AMOLED, 2400 x 1080 pixels
+- Processor: Exynos 2100
+- Camera: Triple-camera (50MP + 16MP + 12MP)
+- Battery: 4800mAh
+- OS: Android 12
+Availability: In stock

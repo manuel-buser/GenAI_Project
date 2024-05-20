@@ -1,0 +1,12 @@
+Product Name: ClearSound X7
+Brand: ClearSound
+Model: X7
+Price: $249
+Description: Experience high-fidelity audio with the ClearSound X7 headphones. Featuring active noise cancellation, a sleek design, and up to 25 hours of playback time, these headphones are perfect for music lovers on the go.
+Key Features:
+- Type: Over-ear
+- Connectivity: Bluetooth 5.0
+- Noise Cancellation: Active
+- Battery Life: Up to 25 hours
+- Weight: 230g
+Availability: In stock

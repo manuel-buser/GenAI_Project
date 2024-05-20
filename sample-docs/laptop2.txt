@@ -1,0 +1,13 @@
+Product Name: SwiftBook Pro 13
+Brand: SwiftBook
+Model: Pro 13
+Price: $1499
+Description: The SwiftBook Pro 13 offers a lightweight and powerful computing experience. With a 13.3-inch Retina display, Apple M1 chip, and 8GB of RAM, this laptop delivers exceptional performance and battery life.
+Key Features:
+- Display: 13.3-inch Retina, 2560 x 1600 pixels
+- Processor: Apple M1 chip
+- Memory: 8GB RAM
+- Storage: 256GB SSD
+- Battery Life: Up to 20 hours
+- OS: macOS
+Availability: In stock

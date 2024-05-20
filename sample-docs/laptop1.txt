@@ -1,0 +1,13 @@
+Product Name: TechMax UltraBook 14
+Brand: TechMax
+Model: UltraBook 14
+Price: $1299
+Description: The TechMax UltraBook 14 combines sleek design with powerful performance. Featuring a 14-inch 4K display, Intel Core i7 processor, and 16GB of RAM, this laptop is perfect for both work and entertainment.
+Key Features:
+- Display: 14-inch 4K UHD, 3840 x 2160 pixels
+- Processor: Intel Core i7-1185G7
+- Memory: 16GB RAM
+- Storage: 512GB SSD
+- Battery Life: Up to 12 hours
+- OS: Windows 11
+Availability: In stock

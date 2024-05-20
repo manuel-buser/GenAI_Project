@@ -1,0 +1,12 @@
+Product Name: NexTech Pro X
+Brand: NexTech
+Model: Pro X
+Price: $999
+Description: The NexTech Pro X features a stunning 6.7-inch AMOLED display, a powerful Snapdragon 888 processor, and a versatile quad-camera setup. With 128GB of storage and 8GB of RAM, this phone ensures smooth performance for all your tasks.
+Key Features:
+- Display: 6.7-inch AMOLED, 2400 x 1080 pixels
+- Processor: Snapdragon 888
+- Camera: Quad-camera (64MP + 12MP + 8MP + 2MP)
+- Battery: 4500mAh
+- OS: Android 12
+Availability: In stock

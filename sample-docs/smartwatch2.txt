@@ -1,0 +1,12 @@
+Product Name: ChronoTrack A1
+Brand: ChronoTrack
+Model: A1
+Price: $349
+Description: Stay connected and healthy with the ChronoTrack A1 smartwatch. Featuring an elegant design, ECG monitoring, and customizable watch faces, this smartwatch combines style and functionality.
+Key Features:
+- Display: 1.3-inch OLED, 360 x 360 pixels
+- Sensors: ECG, Heart rate, GPS
+- Battery Life: Up to 7 days
+- Water Resistance: 30m
+- Compatibility: iOS and Android
+Availability: In stock

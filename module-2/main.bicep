@@ -10,6 +10,8 @@ module aoaiDeployment 'br/public:avm/res/cognitive-services/account:0.5.3' = {
     kind: 'OpenAI'
     name: aoaiServiceName
     location: 'East US 2'
+    publicNetworkAccess: 'Enabled'
+    disableLocalAuth: false
   }
 }
 

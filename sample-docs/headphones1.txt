@@ -1,0 +1,12 @@
+Product Name: SoundWave Elite 900
+Brand: SoundWave
+Model: Elite 900
+Price: $299
+Description: The SoundWave Elite 900 headphones offer superior sound quality with active noise cancellation and Bluetooth 5.0 connectivity. With a comfortable over-ear design and up to 30 hours of battery life, enjoy your music anywhere.
+Key Features:
+- Type: Over-ear
+- Connectivity: Bluetooth 5.0
+- Noise Cancellation: Active
+- Battery Life: Up to 30 hours
+- Weight: 250g
+Availability: In stock
