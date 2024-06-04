@@ -20,5 +20,6 @@ module searchServiceDeployment 'br/public:avm/res/search/search-service:0.4.2' =
     sku: 'free'
     partitionCount: 1
     replicaCount: 1
+    disableLocalAuth: false
   }
 }

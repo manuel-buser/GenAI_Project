@@ -4,3 +4,6 @@ langchain-openai==0.0.8
 python-dotenv==1.0.1
 langchain-community==0.0.38
 beautifulsoup4==4.12.3
+langchain==0.1.19
+azure-search-documents==11.4.0
+azure-identity==1.16.0
