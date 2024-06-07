@@ -1,9 +1,7 @@
 param appServicePlanName string
-param apiAppServiceName string
-param frontEndAppServiceName string
+param chatbotAppServiceName string
 
-
-module serverFarmDeployment 'br/public:avm/res/web/serverfarm:0.1.0' = {
+module serverFarmDeployment 'br/public:avm/res/web/serverfarm:0.1.1' = {
   name: 'app-service-deployment'
   params: {
     name: appServicePlanName
@@ -11,37 +9,28 @@ module serverFarmDeployment 'br/public:avm/res/web/serverfarm:0.1.0' = {
     reserved: true
     sku: {
       capacity: 1
-      family: 'F'
-      name: 'F1'
-      size: 'F1'
-      tier: 'Free'
+      family: 'B'
+      name: 'B1'
+      size: 'B1'
+      tier: 'Basic'
     }
     location: 'East US 2'
   }
 }
 
-module apiAppServiceDeployment 'br/public:avm/res/web/site:0.3.5' = {
-  name: 'app-api-deployment'
+module chatbotAppServiceDeployment 'br/public:avm/res/web/site:0.3.5' = {
+  name: 'app-deployment'
   params: {
     kind: 'app'
-    name: apiAppServiceName
+    name: chatbotAppServiceName
     serverFarmResourceId: serverFarmDeployment.outputs.resourceId
-    location: 'East US 2'
-    siteConfig: {
-      alwaysOn: false
+    appSettingsKeyValuePairs: {
+      SCM_DO_BUILD_DURING_DEPLOYMENT: 'true'
     }
-  }
-}
-
-module frontEndAppServiceDeployment 'br/public:avm/res/web/site:0.3.5' = {
-  name: 'app-front-end-deployment'
-  params: {
-    kind: 'app'
-    name: frontEndAppServiceName
-    serverFarmResourceId: serverFarmDeployment.outputs.resourceId
     location: 'East US 2'
     siteConfig: {
-      alwaysOn: false
+      alwaysOn: true
+      linuxFxVersion: 'PYTHON|3.11'
     }
   }
 }
