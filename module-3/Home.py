@@ -85,12 +85,42 @@ conversational_rag_chain = RunnableWithMessageHistory(
 
 # Streamlit app
 st.title("Generic Tech Shop Inc. Customer Service Bot")
-user_input = st.text_input("Your Question", "")
 
-if st.button("Ask"):
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+def submit():
+    user_input = st.session_state.user_input
+    st.session_state.user_input = ""
     if user_input:
         result = conversational_rag_chain.invoke(
             {"input": user_input},
             config={"configurable": {"session_id": "1"}}
         )
-        st.write(result["answer"])
+        st.session_state.chat_history.append(("User", user_input))
+        st.session_state.chat_history.append(("Bot", result["answer"]))
+
+st.text_input("Your Question", key="user_input", on_change=submit)
+
+# Add JavaScript to trigger form submission on Enter key press
+st.markdown(
+    """
+    <script>
+    const inputBox = parent.document.querySelector('input[type="text"]');
+    inputBox.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const inputElement = parent.document.querySelector('button[type="submit"]');
+            inputElement.click();
+        }
+    });
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
+for sender, message in st.session_state.chat_history:
+    if sender == "User":
+        st.markdown(f"**{sender}:** {message}")
+    else:
+        st.markdown(f"**{sender}:** {message}")
