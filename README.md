@@ -20,7 +20,7 @@ Once Bicep and Azure PowerShell are installed, open a PowerShell terminal and ru
 Connect-AzAccount
 ```
 
-You will also need to install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli) on your machine. Once installed you will need to login to Azure
+Make sure to install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli) on your machine. Once installed you will need to login to Azure
 
 ```powershell
 az login
