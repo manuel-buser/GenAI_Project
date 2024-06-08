@@ -40,7 +40,7 @@ model = AzureChatOpenAI(
 )
 
 retriever = AzureAISearchRetriever(
-    content_key="content", top_k=5, index_name="product-info", api_key=os.getenv("AZURE_SEARCH_KEY"), service_name="genai-on-azure-search"
+    content_key="content", top_k=5, index_name="products", api_key=os.getenv("AZURE_SEARCH_KEY"), service_name="genai-on-azure-search"
 )
 
 history_aware_retriever = create_history_aware_retriever(
