@@ -1,11 +1,12 @@
 param (
-    [switch]$deploy
+    [switch]$deploy,
+    [string]$resourceGroupName
 )
 
 $today = Get-Date -Format "yyyy-MM-dd-hh-mm"
 $deploymentName = "create_genai_resources" + "$today"
 $subscriptionName = "Microsoft Partner Network"
-$resourceGroupName = "genai-on-azure"
+$resourceGroupName = $resourceGroupName
 $templateFile = "$PSScriptRoot\main.bicep"
 $templateParameterFile = "$PSScriptRoot\main.bicepparam"
 
