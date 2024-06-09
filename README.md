@@ -25,3 +25,5 @@ Make sure to install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure
 ```powershell
 az login
 ```
+
+Ensure you request access to Azure OpenAI service via [this](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/limited-access#registration-process) link
