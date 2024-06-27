@@ -162,3 +162,5 @@ cython_debug/
 memory.db
 
 module-4.zip
+
+app_zip.zip
