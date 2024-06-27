@@ -1,23 +1,17 @@
 import os
-from dotenv import load_dotenv
 import streamlit as st
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
+from langchain_openai import AzureChatOpenAI
+from langchain_community.vectorstores.azuresearch import AzureSearch
 from langchain_core.runnables import RunnablePassthrough
-from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain_core.output_parsers import StrOutputParser
 from semantic_router.layer import RouteLayer, Route
 from semantic_router.encoders import AzureOpenAIEncoder
-from langchain_community.vectorstores.azuresearch import AzureSearch
+from langchain.retrievers.multi_query import MultiQueryRetriever
 
-load_dotenv()
-
-model = AzureChatOpenAI(
-    azure_deployment="gpt4o",
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    api_version="2024-02-01"
-)
+st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
+st.title("🦜 LangChain: Chat with Documents")
 
 embeddings: AzureOpenAIEmbeddings = AzureOpenAIEmbeddings(
     azure_deployment="embeddings",
@@ -31,6 +25,12 @@ vector_store: AzureSearch = AzureSearch(
     azure_search_key=os.getenv("AZURE_SEARCH_KEY"),
     index_name=index_name,
     embedding_function=embeddings.embed_query,
+)
+model = AzureChatOpenAI(
+    azure_deployment="gpt4o",
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+    api_version="2024-02-01"
 )
 
 small_talk = Route(
@@ -203,6 +203,7 @@ def semantic_layer(query: str):
     
     return result
 
+
 class ChatHistory:
     def __init__(self):
         self.queries = []
@@ -230,44 +231,25 @@ def process_chat_history(question, chat_history):
     result = chain.invoke({"question": question, "chat_history": chat_history})
     return result
 
-# Streamlit app
-st.title("Generic Tech Shop Inc. Customer Service Bot")
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+    
+if st.sidebar.button("Clear message history"):
+    st.session_state.messages = []
+    
+avatars = {"human": "user", "ai": "assistant"}
+for msg in st.session_state.messages:
+    st.chat_message(avatars[msg["type"]]).write(msg["content"])
 
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-
-def submit():
-    user_input = st.session_state.user_input
-    st.session_state.user_input = ""
-    if user_input:
-        chat_history.add_query(f"Human: {user_input}")
-        result = process_chat_history(user_input, chat_history.get_queries())
+user_query = st.chat_input(placeholder="Ask me anything!")
+if user_query:
+    st.session_state.messages.append({"type": "human", "content": user_query})
+    st.chat_message("user").write(user_query)
+    with st.chat_message("assistant"):
+        chat_history.add_query(f"Human: {user_query}")
+        result = process_chat_history(user_query, chat_history.get_queries())
         answer = semantic_layer(result)
-        chat_history.add_query(f"AI: {answer}")
-        st.session_state.chat_history.append(("User", user_input))
-        st.session_state.chat_history.append(("Bot", answer))
-
-st.text_input("Your Question", key="user_input", on_change=submit)
-
-# Add JavaScript to trigger form submission on Enter key press
-st.markdown(
-    """
-    <script>
-    const inputBox = parent.document.querySelector('input[type="text"]');
-    inputBox.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            const inputElement = parent.document.querySelector('button[type="submit"]');
-            inputElement.click();
-        }
-    });
-    </script>
-    """,
-    unsafe_allow_html=True
-)
-
-for sender, message in st.session_state.chat_history:
-    if sender == "User":
-        st.markdown(f"**{sender}:** {message}")
-    else:
-        st.markdown(f"**{sender}:** {message}")
+        chat_history.add_query(f"AI: {answer}")        
+        answer = semantic_layer(answer)
+        answer
+        st.session_state.messages.append({"type": "ai", "content": answer})
