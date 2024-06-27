@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
+
+# Importing necessary modules from LangChain for integration with Azure and Streamlit
 import streamlit as st
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
@@ -12,9 +14,11 @@ from semantic_router.layer import RouteLayer, Route
 from semantic_router.encoders import AzureOpenAIEncoder
 from langchain.retrievers.multi_query import MultiQueryRetriever
 
+# Setting up Streamlit page configuration
 st.set_page_config(page_title="Generic Tech Shop Inc.", page_icon="🦜")
 st.title("Customer Service Bot")
 
+# Setting up Azure services for embeddings and vector search
 embeddings: AzureOpenAIEmbeddings = AzureOpenAIEmbeddings(
     azure_deployment="embeddings",
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
@@ -28,6 +32,8 @@ vector_store: AzureSearch = AzureSearch(
     index_name=index_name,
     embedding_function=embeddings.embed_query,
 )
+
+# Setting up the GPT-4o OpenAI model for conversation handling
 model = AzureChatOpenAI(
     azure_deployment="gpt4o",
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
@@ -35,6 +41,7 @@ model = AzureChatOpenAI(
     api_version="2024-02-01"
 )
 
+# Defining routes for different types of customer queries
 small_talk = Route(
     name="small_talk",
     utterances=[
@@ -89,10 +96,12 @@ home_theater_questions = Route(
     ],
 )
 
+# Creating a semantic router layer to handle different types of queries
 routes = [small_talk, headphones_questions, laptop_questions, smartphone_questions, smartwatch_questions, home_theater_questions]
 encoder = AzureOpenAIEncoder(api_key=os.getenv("AZURE_OPENAI_API_KEY"), deployment_name="embeddings", azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"), api_version="2024-02-15-preview", model="text-embedding-ada-002")
 rl = RouteLayer(encoder=encoder, routes=routes)
 
+# Setting up templates for different product types to handle specific queries
 laptop_prompt = """Your job is to answer questions on laptops
 Answer the question based only on the following context and be sure to include citations (ie: laptop1 or laptop2):
 {context}
@@ -148,6 +157,7 @@ retriever_from_llm = MultiQueryRetriever.from_llm(
     retriever=vector_store.as_retriever(), llm=model
 )
 
+# Function to determine the semantic layer based on the type of query
 def semantic_layer(query: str):
     route = rl(query)
     result = None 
@@ -205,7 +215,7 @@ def semantic_layer(query: str):
     
     return result
 
-
+# Class to maintain chat history
 class ChatHistory:
     def __init__(self):
         self.queries = []
@@ -218,12 +228,13 @@ class ChatHistory:
     def get_queries(self):
         return self.queries
     
-
+# Initializing chat history in Streamlit session state
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = ChatHistory()
 
 chat_history = st.session_state.chat_history
 
+# Function to process chat history for maintaining context in conversation
 def process_chat_history(question, chat_history):
     prompt = ChatPromptTemplate.from_template(
         "Given a chat history and the latest user question "
@@ -238,15 +249,19 @@ def process_chat_history(question, chat_history):
     result = chain.invoke({"question": question, "chat_history": chat_history})
     return result
 
+# Handling message history in Streamlit session state
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
+# Clearing message history button in Streamlit sidebar
 if st.sidebar.button("Clear message history"):
     st.session_state.messages = []
     st.session_state.chat_history = ChatHistory()  # Reset chat history as well
 
+# Avatars for different types of messages (human input and AI responses)
 avatars = {"human": "user", "ai": "assistant"}
 
+# Displaying message history and processing user queries
 for msg in st.session_state.messages:
     st.chat_message(avatars[msg["type"]]).write(msg["content"])
 
