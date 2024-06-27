@@ -1,5 +1,6 @@
 param appServicePlanName string
 param chatbotAppServiceName string
+param region string
 
 module serverFarmDeployment 'br/public:avm/res/web/serverfarm:0.1.1' = {
   name: 'app-service-deployment'
@@ -14,7 +15,7 @@ module serverFarmDeployment 'br/public:avm/res/web/serverfarm:0.1.1' = {
       size: 'B1'
       tier: 'Basic'
     }
-    location: 'East US 2'
+    location: region
   }
 }
 
@@ -27,7 +28,7 @@ module chatbotAppServiceDeployment 'br/public:avm/res/web/site:0.3.5' = {
     appSettingsKeyValuePairs: {
       SCM_DO_BUILD_DURING_DEPLOYMENT: 'true'
     }
-    location: 'East US 2'
+    location: region
     siteConfig: {
       alwaysOn: true
       linuxFxVersion: 'PYTHON|3.11'
