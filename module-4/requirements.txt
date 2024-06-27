@@ -7,3 +7,4 @@ langchain-community==0.0.38
 python-dotenv==1.0.1
 beautifulsoup4==4.12.3
 semantic-router==0.0.48
+langsmith==0.1.81
