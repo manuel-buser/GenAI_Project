@@ -1,4 +1,6 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
 import streamlit as st
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
@@ -10,8 +12,8 @@ from semantic_router.layer import RouteLayer, Route
 from semantic_router.encoders import AzureOpenAIEncoder
 from langchain.retrievers.multi_query import MultiQueryRetriever
 
-st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
-st.title("🦜 LangChain: Chat with Documents")
+st.set_page_config(page_title="Generic Tech Shop Inc.", page_icon="🦜")
+st.title("Customer Service Bot")
 
 embeddings: AzureOpenAIEmbeddings = AzureOpenAIEmbeddings(
     azure_deployment="embeddings",
@@ -217,27 +219,34 @@ class ChatHistory:
         return self.queries
     
 
-chat_history = ChatHistory()
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = ChatHistory()
+
+chat_history = st.session_state.chat_history
 
 def process_chat_history(question, chat_history):
-    prompt = ChatPromptTemplate.from_template("Given a chat history and the latest user question "
+    prompt = ChatPromptTemplate.from_template(
+        "Given a chat history and the latest user question "
         "which might reference context in the chat history, "
         "formulate a standalone question which can be understood "
         "without the chat history. Do NOT answer the question, "
         "just reformulate it if needed and otherwise return it as is."
-        "Original Question: {question}"
-        "Chat History: {chat_history}")
+        "Original Question: {question} "
+        "Chat History: {chat_history}"
+    )
     chain = prompt | model | StrOutputParser()
     result = chain.invoke({"question": question, "chat_history": chat_history})
     return result
 
 if 'messages' not in st.session_state:
     st.session_state.messages = []
-    
+
 if st.sidebar.button("Clear message history"):
     st.session_state.messages = []
-    
+    st.session_state.chat_history = ChatHistory()  # Reset chat history as well
+
 avatars = {"human": "user", "ai": "assistant"}
+
 for msg in st.session_state.messages:
     st.chat_message(avatars[msg["type"]]).write(msg["content"])
 
@@ -245,11 +254,9 @@ user_query = st.chat_input(placeholder="Ask me anything!")
 if user_query:
     st.session_state.messages.append({"type": "human", "content": user_query})
     st.chat_message("user").write(user_query)
-    with st.chat_message("assistant"):
-        chat_history.add_query(f"Human: {user_query}")
-        result = process_chat_history(user_query, chat_history.get_queries())
-        answer = semantic_layer(result)
-        chat_history.add_query(f"AI: {answer}")        
-        answer = semantic_layer(answer)
-        answer
-        st.session_state.messages.append({"type": "ai", "content": answer})
+    chat_history.add_query(f"Human: {user_query}")
+    result = process_chat_history(user_query, chat_history.get_queries())
+    answer = semantic_layer(result)
+    chat_history.add_query(f"AI: {answer}")
+    st.session_state.messages.append({"type": "ai", "content": answer})
+    st.chat_message("assistant").write(answer)
